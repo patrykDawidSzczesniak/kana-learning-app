@@ -11,7 +11,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <>
+    <div className="h-full w-full">
       <Toaster position="top-center" />
       <Router>
         <AuthProvider>
@@ -27,7 +27,7 @@ function App() {
           </Routes>
         </AuthProvider>
       </Router>
-    </>
+    </div>
   );
 }
 
