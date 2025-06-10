@@ -1,14 +1,14 @@
 import { useContext, createContext, useState, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import * as reqTypes from "../../../src/types/Requests";
 import * as resTypes from "../../../src/types/Responses";
+import toast from "react-hot-toast";
 
 interface AuthContextType {
   token: string | null;
   userId: number | null;
   setToken: (token: string | null) => void;
   setUserId: (id: number | null) => void;
-  loginFunction: (data: reqTypes.LoginRequest) => Promise<void>;
+  loginFunction: (data: { email: string; password: string }) => Promise<void>;
   logoutFunction: () => void;
 }
 
@@ -21,7 +21,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   );
   const navigate = useNavigate();
 
-  const loginFunction = async (data: reqTypes.LoginRequest) => {
+  const loginFunction = async (data: { email: string; password: string }) => {
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
@@ -42,16 +42,18 @@ function AuthProvider({ children }: { children: ReactNode }) {
       setToken(res.token);
       localStorage.setItem("token", res.token);
       navigate("/profile");
-    } catch (err) {
-      console.error("Login error:", err);
+      toast.success("Logged in successfully!")
+    } catch (err: any) {
+      toast.error(err.message);
     }
   };
 
   const logoutFunction = () => {
     setUserId(null);
     setToken(null);
-    localStorage.removeItem("token");
     navigate("/login");
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully!")
   };
 
   return (
