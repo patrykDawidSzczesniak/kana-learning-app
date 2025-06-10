@@ -1,4 +1,4 @@
-type InputTypes = "password" | "email" | "text";
+type InputTypes = "password" | "text";
 
 interface InputProps {
   type?: InputTypes;
@@ -33,7 +33,7 @@ function InputField({
         />
       </>
       <div className="h-2 mt-2">
-        {error && <label className="text-red-500 h-4">{errorMessage}</label>}
+        {error && <label className="text-red-500">{errorMessage}</label>}
       </div>
     </div>
   );
